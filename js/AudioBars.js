@@ -22,10 +22,10 @@ playbtn.addEventListener('click', function () {
 waveform.addEventListener('mousedown', function (e) {
     //Grabs the horizontal x-position of the click as a percentage of total element width and
     //uses this percentage to control gradient position and song playback position
-    let xPercent = 100*e.offsetX / waveform.offsetWidth;
-    console.log(xPercent);
+    let xRatio = e.offsetX / waveform.offsetWidth;
+    let xPercent = 100*xRatio;
     setGradient(xPercent);
-    audio1.currentTime = audio1.duration*Math.abs(xPercent/100);
+    audio1.currentTime = audio1.duration*Math.abs(xRatio);
 });
 
 setInterval(updateGrad = () => {
