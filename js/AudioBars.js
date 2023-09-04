@@ -5,6 +5,8 @@ const playme = document.getElementById('playme');
 const unplay = document.getElementById('unplay');
 
 playbtn.addEventListener('click', function () {
+    //Controls audio playback using the playbtn element
+
     audio1.paused ? audio1.play() : audio1.pause();
 
     if (unplay.hidden) {
@@ -15,48 +17,25 @@ playbtn.addEventListener('click', function () {
         playme.style.display = "";
         unplay.hidden = true;
     }
-
 })
 
-function get_time() {
-    
-    console.log(`current time ${audio1.currentTime}`);
-    console.log(`audio duration total: ${audio1.duration}`);
-    //audio1.currentTime = 100;
-
-}
-
-function set_time(time) {
-
-    p = audio1.duration*Math.abs(time);
-    audio1.currentTime = p;
-}
-
 waveform.addEventListener('mousedown', function (e) {
-    let cursorXRatio = getCursorPositionRatio(e);
-    //console.log(cursorXRatio);
-    let percentage = cursorXRatio * 100;
-    setGradient(percentage);
-
-    set_time(cursorXRatio);
-
+    //Grabs the horizontal x-position of the click as a percentage of total element width
+    //uses this percentage to control gradient position and song playback position
+    let xPercent = e.offsetX/waveform.offsetWidth * 100;
+    setGradient(xPercent);
+    audio1.currentTime = audio1.duration*Math.abs(xPercent);
 });
 
-function getCursorPositionRatio(e) {
+setInterval(updateGrad = () => {
+    //updates the gradient 10 times per second to reflect current song play back position
+    let timePercentage = 100*audio1.currentTime / audio1.duration;
+    setGradient(timePercentage);
+}, 100)
 
-    const xP = e.offsetX/waveform.offsetWidth;
-    return xP;
-}
+function setGradient(percent) {
 
-function setGradient(x) {
-    let p = x;
-    console.log(`set gradient argument is ${p} `);
-    const newGrad = `linear-gradient(90deg, rgba(0,0,0,1) ${p}%, rgba(255,255,255,0) ${p}%)`;
+    const newGrad = `linear-gradient(90deg, rgba(0,0,0,1) ${percent}%, rgba(255,255,255,0) ${percent}%)`;
     waveform.style.maskImage = newGrad;
     waveform.style.webkitMaskImage = newGrad;
 }
-
-setInterval(updateGrad = () => {
-    let r = 100*audio1.currentTime / audio1.duration;
-    setGradient(r);
-}, 100)
