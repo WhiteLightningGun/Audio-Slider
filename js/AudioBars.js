@@ -20,7 +20,7 @@ playbtn.addEventListener('click', function () {
 })
 
 waveform.addEventListener('mousedown', function (e) {
-    //Grabs the horizontal x-position of the click as a percentage of total element width
+    //Grabs the horizontal x-position of the click as a percentage of total element width and
     //uses this percentage to control gradient position and song playback position
     let xPercent = e.offsetX/waveform.offsetWidth * 100;
     setGradient(xPercent);
@@ -37,5 +37,5 @@ function setGradient(percent) {
 
     const newGrad = `linear-gradient(90deg, rgba(0,0,0,1) ${percent}%, rgba(255,255,255,0) ${percent}%)`;
     waveform.style.maskImage = newGrad;
-    waveform.style.webkitMaskImage = newGrad;
+    waveform.style.webkitMaskImage = newGrad; //For Chrome Compatibility
 }
